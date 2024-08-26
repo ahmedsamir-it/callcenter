@@ -1,125 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نموذج إدخال بيانات</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: url('https://i.postimg.cc/k4JF5Hrm/download-1.webp') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: 'Arial', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            direction: rtl; /* اتجاه الكتابة من اليمين لليسار */
         }
         .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.8); /* تأثير زجاجي */
+            padding: 30px;
+            border-radius: 10px;
+            margin: 50px auto;
+            max-width: 100%;
+            width: 90%;
         }
-        h1 {
-            text-align: center;
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* وضع العناصر في الجهة اليمنى */
+            margin-bottom: 20px;
         }
-        label {
+        .header img {
+            width: 150px; /* تعديل عرض اللوجو */
+            height: auto;
+            margin-right: 20px; /* مسافة بين اللوجو والنص */
+            transition: transform 0.3s ease;
+        }
+        .header h1, .header h2 {
+            margin: 0;
+            text-align: left; /* محاذاة العنوانين إلى اليسار */
+        }
+        .header h1 {
+            font-size: 2.2em;
+            color: #0066cc; /* لون متناسق مع التصميم */
+        }
+        .header h2 {
+            font-size: 1.5em;
+            color: #333; /* لون متناسق مع التصميم */
+        }
+        .header img:hover {
+            transform: scale(1.1); /* تكبير الشعار عند التمرير */
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #333; /* لون نصوص الترويسات */
+            text-align: right; /* محاذاة نص الترويسة إلى اليمين */
             display: block;
-            margin: 10px 0 5px;
         }
-        input[type="text"], input[type="tel"], textarea, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .btn-primary {
+            background-color: #0066cc;
+            border-color: #0066cc;
         }
-        button {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
+        .btn-primary:hover {
+            background-color: #00509e;
+            border-color: #004080;
         }
-        button:hover {
-            background-color: #218838;
+        .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #545b62;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+        .btn-info:hover {
+            background-color: #138496;
+            border-color: #117a8b;
+        }
+        .glass-effect {
+            backdrop-filter: blur(8px);
+        }
+        #data-table {
+            margin-top: 20px;
+        }
+        .table {
+            text-align: right; /* محاذاة النصوص إلى اليمين */
+        }
+        .success-message {
+            display: none;
+            color: green;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>نموذج إدخال بيانات</h1>
-        <form id="dataForm">
-            <label for="date">التاريخ:</label>
-            <input type="text" id="date" name="date" readonly>
-            
-            <label for="callCenterEmployee">موظف الكول سنتر:</label>
-            <select id="callCenterEmployee" name="callCenterEmployee" required>
-                <option value="مهاب">مهاب</option>
-                <option value="منه">منه</option>
-                <option value="تسنيم">تسنيم</option>
-            </select>
-
-            <label for="representativeName">اسم المندوب:</label>
-            <input type="text" id="representativeName" name="representativeName" required>
-            
-            <label for="mobileNumber">رقم الجوال:</label>
-            <input type="tel" id="mobileNumber" name="mobileNumber" required>
-            
-            <label for="nationality">الجنسية:</label>
-            <select id="nationality" name="nationality" required>
-                <option value="مصري">مصري</option>
-                <option value="سوداني">سوداني</option>
-                <option value="بكستاني">بكستاني</option>
-                <option value="هندي">هندي</option>
-                <option value="بنجالي">بنجالي</option>
-                <option value="اثيوبي">اثيوبي</option>
-                <option value="يمني">يمني</option>
-                <option value="سوري">سوري</option>
-                <option value="افغاني">افغاني</option>
-                <option value="نيبالي">نيبالي</option>
-                <option value="نيجيري">نيجيري</option>
-                <option value="جزائري">جزائري</option>
-                <option value="أخرى">أخرى</option>
-            </select>
-            
-            <label for="city">المدينة:</label>
-            <select id="city" name="city" required>
-                <option value="الرياض">الرياض</option>
-                <option value="جدة">جدة</option>
-                <option value="المدينة">المدينة</option>
-                <option value="الدمام">الدمام</option>
-                <option value="أخرى">أخرى</option>
-            </select>
-
-            <label for="application">التطبيق:</label>
-            <select id="application" name="application" required>
-                <option value="شيفز">شيفز</option>
-                <option value="هنقريستيشن">هنقريستيشن</option>
-                <option value="جاهز">جاهز</option>
-                <option value="مرسول">مرسول</option>
-                <option value="أمريكانا">أمريكانا</option>
-                <option value="نون فود">نون فود</option>
-                <option value="نون طرود">نون طرود</option>
-                <option value="أمازون">أمازون</option>
-                <option value="مستر مندوب">مستر مندوب</option>
-            </select>
-
-            <label for="callCenterNotes">ملاحظات الكول سنتر:</label>
-            <textarea id="callCenterNotes" name="callCenterNotes" rows="4"></textarea>
-
-            <button type="submit">إرسال</button>
+    <div class="container glass-effect">
+        <div class="header">
+            <div>
+                <h1>Data Entry</h1>
+                <h2>On Time Logistics</h2>
+            </div>
+            <img src="https://i.postimg.cc/t4XrSbNh/AHMED2.png" alt="Logo"> <!-- رابط اللوجو الجديد -->
+        </div>
+        <form id="data-form">
+            <div class="form-group">
+                <label for="callCenterEmployee">موظف الكول سنتر:</label>
+                <select id="callCenterEmployee" class="form-control" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="مهاب">مهاب</option>
+                    <option value="منه">منه</option>
+                    <option value="تسنيم">تسنيم</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="representativeName">اسم المندوب:</label>
+                <input type="text" id="representativeName" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">رقم الجوال:</label>
+                <input type="text" id="mobileNumber" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="nationality">الجنسية:</label>
+                <select id="nationality" class="form-control" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="مصري">مصري</option>
+                    <option value="سوداني">سوداني</option>
+                    <option value="بكستاني">بكستاني</option>
+                    <option value="هندي">هندي</option>
+                    <option value="بنجالي">بنجالي</option>
+                    <option value="اثيوبي">اثيوبي</option>
+                    <option value="يمني">يمني</option>
+                    <option value="سوري">سوري</option>
+                    <option value="افغاني">افغاني</option>
+                    <option value="نيبالي">نيبالي</option>
+                    <option value="نيجيري">نيجيري</option>
+                    <option value="جزائري">جزائري</option>
+                    <option value="أخرى">أخرى</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="city">المدينة:</label>
+                <select id="city" class="form-control" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="الرياض">الرياض</option>
+                    <option value="جدة">جدة</option>
+                    <option value="المدينة">المدينة</option>
+                    <option value="الدمام">الدمام</option>
+                    <option value="أخرى">أخرى</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="applicationUsed">التطبيق:</label>
+                <select id="applicationUsed" class="form-control" required>
+                    <option value="" disabled selected hidden></option>
+                    <option value="شيفز">شيفز</option>
+                    <option value="هنقريستيشن">هنقريستيشن</option>
+                    <option value="جاهز">جاهز</option>
+                    <option value="مرسول">مرسول</option>
+                    <option value="أمريكانا">أمريكانا</option>
+                    <option value="نون فود">نون فود</option>
+                    <option value="نون طرود">نون طرود</option>
+                    <option value="أمازون">أمازون</option>
+                    <option value="مستر مندوب">مستر مندوب</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="callCenterNotes">ملاحظات الكول سنتر:</label>
+                <textarea id="callCenterNotes" class="form-control" rows="4" required></textarea>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="submitForm()">إرسال</button>
+            <button type="button" class="btn btn-secondary" onclick="resetForm()">مسح</button>
+            <button type="button" class="btn btn-info" onclick="loadData()">عرض البيانات</button>
         </form>
+        <div id="data-table" class="mt-4"></div>
+        <div id="success-message" class="success-message">تم إرسال البيانات بنجاح!</div>
     </div>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
     <script>
-        // Automatically set the current date
-        document.addEventListener('DOMContentLoaded', () => {
-            const dateInput = document.getElementById('date');
-            const today = new Date();
-            const formattedDate = today.toISOString().split('T')[0]; // yyyy-mm-dd format
-            dateInput.value = formattedDate;
-        });
+        function initClient() {
+            gapi.client.init({
+                apiKey: 'API_KEY',
+                clientId: '268121148237-o13u4rlnv9ah1mmqc04u391grpner5eh.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/spreadsheets',
+            }).then(function () {
+                loadData(); // تحميل البيانات تلقائياً عند تحميل الصفحة
+            }, function(error) {
+                console.log(JSON.stringify(error, null, 2));
+            });
+        }
+        
+        function loadData() {
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: '13bUYTUBFtudxrnUR8TCB6jxrdY3I9Ffxqd0PJ3xuM9I',
+                range: 'Sheet1!A1:H10', 
+            }).then(function(response) {
+                var data = response.result.values;
+                var table = '<table class="table table-bordered"><thead><tr><th>موظف الكول سنتر</th><th>اسم المندوب</th><th>رقم الجوال</th><th>الجنسية</th><th>المدينة</th><th>التطبيق</th><th>ملاحظات الكول سنتر</th></tr></thead><tbody>';
+                data.forEach(function(row) {
+                    table += '<tr>';
+                    row.forEach(function(cell) {
+                        table += '<td>' + cell + '</td>';
+                    });
+                    table += '</tr>';
+                });
+                table += '</tbody></table>';
+                document.getElementById('data-table').innerHTML = table;
+            }, function(response) {
+                console.log('Error: ' + response.result.error.message);
+            });
+        }
+
+        function submitForm() {
+            // التحقق من صحة الإدخالات
+            if (!document.getElementById('callCenterEmployee').value || !document.getElementById('representativeName').value ||
+                !document.getElementById('mobileNumber').value || !document.getElementById('nationality').value ||
+                !document.getElementById('city').value || !document.getElementById('applicationUsed').value ||
+                !document.getElementById('callCenterNotes').value) {
+                swal('خطأ', 'يرجى ملء جميع الحقول!', 'error');
+                return;
+            }
+
+            var params = {
+                spreadsheetId: '13bUYTUBFtudxrnUR8TCB6jxrdY3I9Ffxqd0PJ3xuM9I',
+                range: 'Sheet1!A:H',
+                valueInputOption: 'RAW',
+                insertDataOption: 'INSERT_ROWS',
+                values: [
+                    [
+                        document.getElementById('callCenterEmployee').value,
+                        document.getElementById('representativeName').value,
+                        document.getElementById('mobileNumber').value,
+                        document.getElementById('nationality').value,
+                        document.getElementById('city').value,
+                        document.getElementById('applicationUsed').value,
+                        document.getElementById('callCenterNotes').value
+                    ]
+                ]
+            };
+
+            var request = gapi.client.sheets.spreadsheets.values.append(params);
+            request.then(function(response) {
+                swal('نجاح', 'تم إرسال البيانات بنجاح!', 'success');
+                resetForm(); // إعادة تعيين النموذج بعد الإرسال
+                loadData(); // تحديث البيانات المعروضة بعد الإرسال
+            }, function(reason) {
+                swal('خطأ', 'حدث خطأ أثناء إرسال البيانات!', 'error');
+            });
+        }
+
+        function resetForm() {
+            document.getElementById('data-form').reset();
+            document.getElementById('success-message').style.display = 'none';
+        }
+
+        gapi.load('client', initClient);
     </script>
 </body>
 </html>
