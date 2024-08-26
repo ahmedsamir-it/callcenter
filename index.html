@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج إدخال بيانات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="tel"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>نموذج إدخال بيانات</h1>
+        <form id="dataForm">
+            <label for="date">التاريخ:</label>
+            <input type="text" id="date" name="date" readonly>
+            
+            <label for="callCenterEmployee">موظف الكول سنتر:</label>
+            <select id="callCenterEmployee" name="callCenterEmployee" required>
+                <option value="مهاب">مهاب</option>
+                <option value="منه">منه</option>
+                <option value="تسنيم">تسنيم</option>
+            </select>
+
+            <label for="representativeName">اسم المندوب:</label>
+            <input type="text" id="representativeName" name="representativeName" required>
+            
+            <label for="mobileNumber">رقم الجوال:</label>
+            <input type="tel" id="mobileNumber" name="mobileNumber" required>
+            
+            <label for="nationality">الجنسية:</label>
+            <select id="nationality" name="nationality" required>
+                <option value="مصري">مصري</option>
+                <option value="سوداني">سوداني</option>
+                <option value="بكستاني">بكستاني</option>
+                <option value="هندي">هندي</option>
+                <option value="بنجالي">بنجالي</option>
+                <option value="اثيوبي">اثيوبي</option>
+                <option value="يمني">يمني</option>
+                <option value="سوري">سوري</option>
+                <option value="افغاني">افغاني</option>
+                <option value="نيبالي">نيبالي</option>
+                <option value="نيجيري">نيجيري</option>
+                <option value="جزائري">جزائري</option>
+                <option value="أخرى">أخرى</option>
+            </select>
+            
+            <label for="city">المدينة:</label>
+            <select id="city" name="city" required>
+                <option value="الرياض">الرياض</option>
+                <option value="جدة">جدة</option>
+                <option value="المدينة">المدينة</option>
+                <option value="الدمام">الدمام</option>
+                <option value="أخرى">أخرى</option>
+            </select>
+
+            <label for="application">التطبيق:</label>
+            <select id="application" name="application" required>
+                <option value="شيفز">شيفز</option>
+                <option value="هنقريستيشن">هنقريستيشن</option>
+                <option value="جاهز">جاهز</option>
+                <option value="مرسول">مرسول</option>
+                <option value="أمريكانا">أمريكانا</option>
+                <option value="نون فود">نون فود</option>
+                <option value="نون طرود">نون طرود</option>
+                <option value="أمازون">أمازون</option>
+                <option value="مستر مندوب">مستر مندوب</option>
+            </select>
+
+            <label for="callCenterNotes">ملاحظات الكول سنتر:</label>
+            <textarea id="callCenterNotes" name="callCenterNotes" rows="4"></textarea>
+
+            <button type="submit">إرسال</button>
+        </form>
+    </div>
+
+    <script>
+        // Automatically set the current date
+        document.addEventListener('DOMContentLoaded', () => {
+            const dateInput = document.getElementById('date');
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0]; // yyyy-mm-dd format
+            dateInput.value = formattedDate;
+        });
+    </script>
+</body>
+</html>
