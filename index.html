@@ -14,10 +14,10 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            direction: rtl; /* اتجاه الكتابة من اليمين لليسار */
+            direction: rtl;
         }
         .container {
-            background: rgba(255, 255, 255, 0.8); /* تأثير زجاجي */
+            background: rgba(255, 255, 255, 0.8);
             padding: 30px;
             border-radius: 10px;
             margin: 50px auto;
@@ -27,34 +27,34 @@
         .header {
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* وضع العناصر في الجهة اليمنى */
+            justify-content: flex-end;
             margin-bottom: 20px;
         }
         .header img {
-            width: 150px; /* تعديل عرض اللوجو */
+            width: 150px;
             height: auto;
-            margin-right: 20px; /* مسافة بين اللوجو والنص */
+            margin-right: 20px;
             transition: transform 0.3s ease;
         }
         .header h1, .header h2 {
             margin: 0;
-            text-align: left; /* محاذاة العنوانين إلى اليسار */
+            text-align: left;
         }
         .header h1 {
             font-size: 2.2em;
-            color: #0066cc; /* لون متناسق مع التصميم */
+            color: #0066cc;
         }
         .header h2 {
             font-size: 1.5em;
-            color: #333; /* لون متناسق مع التصميم */
+            color: #333;
         }
         .header img:hover {
-            transform: scale(1.1); /* تكبير الشعار عند التمرير */
+            transform: scale(1.1);
         }
         .form-group label {
             font-weight: bold;
-            color: #333; /* لون نصوص الترويسات */
-            text-align: right; /* محاذاة نص الترويسة إلى اليمين */
+            color: #333;
+            text-align: right;
             display: block;
         }
         .btn-primary {
@@ -88,7 +88,7 @@
             margin-top: 20px;
         }
         .table {
-            text-align: right; /* محاذاة النصوص إلى اليمين */
+            text-align: right;
         }
         .success-message {
             display: none;
@@ -106,7 +106,7 @@
                 <h1>Data Entry</h1>
                 <h2>On Time Logistics</h2>
             </div>
-            <img src="https://i.postimg.cc/t4XrSbNh/AHMED2.png" alt="Logo"> <!-- رابط اللوجو الجديد -->
+            <img src="https://i.postimg.cc/t4XrSbNh/AHMED2.png" alt="Logo">
         </div>
         <form id="data-form">
             <div class="form-group">
@@ -198,72 +198,77 @@
                 console.log(JSON.stringify(error, null, 2));
             });
         }
-        
-        function loadData() {
-            gapi.client.sheets.spreadsheets.values.get({
-                spreadsheetId: '13bUYTUBFtudxrnUR8TCB6jxrdY3I9Ffxqd0PJ3xuM9I',
-                range: 'Sheet1!A1:H10', 
-            }).then(function(response) {
-                var data = response.result.values;
-                var table = '<table class="table table-bordered"><thead><tr><th>موظف الكول سنتر</th><th>اسم المندوب</th><th>رقم الجوال</th><th>الجنسية</th><th>المدينة</th><th>التطبيق</th><th>ملاحظات الكول سنتر</th></tr></thead><tbody>';
-                data.forEach(function(row) {
-                    table += '<tr>';
-                    row.forEach(function(cell) {
-                        table += '<td>' + cell + '</td>';
-                    });
-                    table += '</tr>';
-                });
-                table += '</tbody></table>';
-                document.getElementById('data-table').innerHTML = table;
-            }, function(response) {
-                console.log('Error: ' + response.result.error.message);
-            });
+
+        function handleClientLoad() {
+            gapi.load('client:auth2', initClient);
         }
 
         function submitForm() {
-            // التحقق من صحة الإدخالات
-            if (!document.getElementById('callCenterEmployee').value || !document.getElementById('representativeName').value ||
-                !document.getElementById('mobileNumber').value || !document.getElementById('nationality').value ||
-                !document.getElementById('city').value || !document.getElementById('applicationUsed').value ||
-                !document.getElementById('callCenterNotes').value) {
-                swal('خطأ', 'يرجى ملء جميع الحقول!', 'error');
+            var callCenterEmployee = $('#callCenterEmployee').val();
+            var representativeName = $('#representativeName').val();
+            var mobileNumber = $('#mobileNumber').val();
+            var nationality = $('#nationality').val();
+            var city = $('#city').val();
+            var applicationUsed = $('#applicationUsed').val();
+            var callCenterNotes = $('#callCenterNotes').val();
+
+            if (!callCenterEmployee || !representativeName || !mobileNumber || !nationality || !city || !applicationUsed || !callCenterNotes) {
+                swal("خطأ", "يرجى تعبئة جميع الحقول!", "error");
                 return;
             }
 
-            var params = {
+            gapi.client.sheets.spreadsheets.values.append({
                 spreadsheetId: '13bUYTUBFtudxrnUR8TCB6jxrdY3I9Ffxqd0PJ3xuM9I',
-                range: 'Sheet1!A:H',
+                range: 'Sheet1!A:G',
                 valueInputOption: 'RAW',
                 insertDataOption: 'INSERT_ROWS',
-                values: [
-                    [
-                        document.getElementById('callCenterEmployee').value,
-                        document.getElementById('representativeName').value,
-                        document.getElementById('mobileNumber').value,
-                        document.getElementById('nationality').value,
-                        document.getElementById('city').value,
-                        document.getElementById('applicationUsed').value,
-                        document.getElementById('callCenterNotes').value
-                    ]
-                ]
-            };
-
-            var request = gapi.client.sheets.spreadsheets.values.append(params);
-            request.then(function(response) {
-                swal('نجاح', 'تم إرسال البيانات بنجاح!', 'success');
-                resetForm(); // إعادة تعيين النموذج بعد الإرسال
-                loadData(); // تحديث البيانات المعروضة بعد الإرسال
-            }, function(reason) {
-                swal('خطأ', 'حدث خطأ أثناء إرسال البيانات!', 'error');
+                resource: {
+                    values: [[new Date().toLocaleString(), callCenterEmployee, representativeName, mobileNumber, nationality, city, applicationUsed, callCenterNotes]]
+                }
+            }).then(function(response) {
+                console.log(response);
+                swal("تم", "تم إرسال البيانات بنجاح!", "success");
+                resetForm();
+                loadData();
+            }, function(error) {
+                console.log(error);
+                swal("خطأ", "حدث خطأ أثناء إرسال البيانات!", "error");
             });
         }
 
         function resetForm() {
-            document.getElementById('data-form').reset();
-            document.getElementById('success-message').style.display = 'none';
+            $('#data-form')[0].reset();
         }
 
-        gapi.load('client', initClient);
+        function loadData() {
+            gapi.client.sheets.spreadsheets.values.get({
+                spreadsheetId: '13bUYTUBFtudxrnUR8TCB6jxrdY3I9Ffxqd0PJ3xuM9I',
+                range: 'Sheet1!A:G',
+            }).then(function(response) {
+                var range = response.result;
+                if (range.values.length > 0) {
+                    var table = '<table class="table table-bordered"><thead><tr>';
+                    table += '<th>التاريخ</th><th>موظف الكول سنتر</th><th>اسم المندوب</th><th>رقم الجوال</th><th>الجنسية</th><th>المدينة</th><th>التطبيق</th><th>ملاحظات الكول سنتر</th>';
+                    table += '</tr></thead><tbody>';
+                    for (i = 0; i < range.values.length; i++) {
+                        var row = range.values[i];
+                        table += '<tr>';
+                        for (var j = 0; j < row.length; j++) {
+                            table += '<td>' + row[j] + '</td>';
+                        }
+                        table += '</tr>';
+                    }
+                    table += '</tbody></table>';
+                    $('#data-table').html(table);
+                } else {
+                    $('#data-table').html('لا توجد بيانات لعرضها.');
+                }
+            }, function(error) {
+                console.log(error);
+            });
+        }
+
+        handleClientLoad();
     </script>
 </body>
 </html>
